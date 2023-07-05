@@ -31,11 +31,14 @@ if($conn->connect_error){
 	
 	
 	// finally display all data
-	$result = $conn->query("SELECT callsign FROM summary");
+	$result = $conn->query("SELECT callsign, dxcallsign FROM summary");
 	if ($result->num_rows > 0) {
 	  // output data of each row
 	  while($row = $result->fetch_assoc()) {
-		  $rows[] = $row;	
+		  $rows[] = $row;
+			
+
+
 	  }
 		
 		$json_string = json_encode($rows);
