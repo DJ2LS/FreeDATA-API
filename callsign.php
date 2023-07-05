@@ -28,44 +28,10 @@ if($conn->connect_error){
 	
 	// get post data and check if empty
 	$post_data = file_get_contents('php://input');	
-	if($post_data !== ''){
-		$data = json_decode($post_data, true);
-		$json = json_decode($data, true); // we need to run this twice for converting string to array
-
-
-		$callsign = $json["callsign"];
-		$dxcallsign = $json["dxcallsign"];
-		$gridsquare = $json["gridsquare"];
-		$dxgridsquare = $json["dxgridsquare"];
-		$frequency = $json["frequency"];
-		$avgstrength = $json["avgstrength"];
-		$avgsnr = $json["avgsnr"];
-		$bytesperminute = $json["bytesperminute"];
-		$filesize = $json["filesize"];
-		$compressionfactor = $json["compressionfactor"];
-		$nacks = $json["nacks"];
-		$crcerror = $json["crcerror"];
-		if($crcerror == true){
-			$crcerror = "True";
-		} else {
-			$crcerror = "False";
-		}
-		
-		$duration = $json["duration"];
-		$status = $json["status"];
-		$version = $json["version"];
-
-	
-		$sql = "INSERT INTO summary (timestamp, callsign, dxcallsign, gridsquare, dxgridsquare, frequency, avgstrength, avgsnr, bytesperminute, filesize, compressionfactor, nacks, crcerror, duration, status, version )
-				VALUES ('$date', '$callsign', '$dxcallsign', '$gridsquare','$dxgridsquare', '$frequency','$avgstrength', '$avgsnr', '$bytesperminute', '$filesize', '$compressionfactor', '$nacks', '$crcerror', '$duration','$status', '$version')";
-		
-
-	$result = $conn->query($sql);
-	}
 	
 	
 	// finally display all data
-	$result = $conn->query("SELECT * FROM summary");
+	$result = $conn->query("SELECT callsign FROM summary");
 	if ($result->num_rows > 0) {
 	  // output data of each row
 	  while($row = $result->fetch_assoc()) {
