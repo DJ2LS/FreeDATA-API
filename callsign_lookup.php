@@ -49,7 +49,7 @@ if($conn->connect_error){
 
 			$crc24Value = crc24_openpgp($value);
 			$crc24Value = sprintf("%08x", $crc24Value);
-			$crc24HexTrimmed = ltrim($crc24Value, '0');
+			$crc24HexTrimmed = substr($crc24Value, -6);
 
 			$jsonArray[$value] = $crc24HexTrimmed; // Assign each value to the corresponding key in the JSON array
 		}
