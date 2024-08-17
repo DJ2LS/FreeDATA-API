@@ -91,7 +91,14 @@ if ($result->num_rows > 0) {
         $rows[] = $row;
     }
     $json_string = json_encode($rows);
-    echo "{$_GET['callback']}($json_string)";
+
+    // Check if a callback is provided for JSONP, else return regular JSON
+    if (isset($_GET['callback'])) {
+        $callback = $_GET['callback'];
+        echo $callback . '(' . $json_string . ')';
+    } else {
+        echo $json_string;
+    }
 } else {
     echo json_encode(["message" => "0 results"]);
 }
