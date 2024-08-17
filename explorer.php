@@ -42,7 +42,7 @@ if (!empty($post_data)) {
         $version = $conn->real_escape_string($json['version']);
         $bandwidth = $conn->real_escape_string($json['bandwidth']);
         $beacon = $conn->real_escape_string($json['beacon']);
-        $lastheard = $conn->real_escape_string(json_encode($json['lastheard']));
+        $lastheard = json_encode($json['lastheard']); // Assuming $json['lastheard'] is an array or object
 
         // Check if the callsign already exists
         $sql = "SELECT frequency FROM explorer WHERE callsign = '$callsign'";
@@ -88,17 +88,13 @@ $result = $conn->query("SELECT * FROM explorer");
 if ($result->num_rows > 0) {
     $rows = [];
     while ($row = $result->fetch_assoc()) {
+        $row['lastheard'] = json_decode($row['lastheard']); // Decode the JSON string back into an object or array
         $rows[] = $row;
     }
     $json_string = json_encode($rows);
 
-    // Check if a callback is provided for JSONP, else return regular JSON
-    if (isset($_GET['callback'])) {
-        $callback = $_GET['callback'];
-        echo $callback . '(' . $json_string . ')';
-    } else {
-        echo $json_string;
-    }
+    // Return the JSON response
+    echo $json_string;
 } else {
     echo json_encode(["message" => "0 results"]);
 }
