@@ -9,7 +9,6 @@ include_once("explorer_config.php");
 
 date_default_timezone_set('UTC');
 $date = date('y-m-d h:i:s');
-
 $conn = new mysqli($dbserver, $dbuser, $dbpwd, $dbname);
 
 if ($conn->connect_error) {
@@ -21,6 +20,9 @@ if ($conn->query($dbsetup) !== TRUE) {
 }
 
 $post_data = file_get_contents('php://input');
+// Attempt to decode the JSON
+$post_data = json_decode($post_data, true);
+
 if (!empty($post_data)) {
     $json = json_decode($post_data, true);
 
