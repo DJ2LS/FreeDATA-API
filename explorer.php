@@ -8,6 +8,7 @@ ini_set('display_errors', 1);
 include_once("explorer_config.php");
 
 date_default_timezone_set('UTC');
+$date = date('y-m-d H:i:s');
 
 $conn = new mysqli($dbserver, $dbuser, $dbpwd, $dbname);
 
@@ -39,14 +40,14 @@ if (!empty($post_data)) {
 
         if ($result->num_rows === 0) {
             $sql = "INSERT INTO explorer (timestamp, callsign, gridsquare, version, frequency, strength, band, bandwidth, beacon, lastheard)
-                    VALUES (NOW(), '$callsign', '$gridsquare', '$version', '$frequency', '$strength', '$band', '$bandwidth', '$beacon', '$lastheard')";
+                    VALUES ('$date', '$callsign', '$gridsquare', '$version', '$frequency', '$strength', '$band', '$bandwidth', '$beacon', '$lastheard')";
         } else {
             $row = $result->fetch_assoc();
             if ($frequency === 0) {
                 $frequency = (int)$row['frequency'];
             }
             $sql = "UPDATE explorer SET
-                    timestamp = NOW(),
+                    timestamp = CURRENT_TIMESTAMP,
                     gridsquare = '$gridsquare',
                     version = '$version',
                     frequency = '$frequency',
