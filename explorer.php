@@ -8,7 +8,7 @@ ini_set('display_errors', 1);
 include_once("explorer_config.php");
 
 date_default_timezone_set('UTC');
-$date = date('y-m-d H:i:s');
+$date = date('y-m-d h:i:s');
 
 $conn = new mysqli($dbserver, $dbuser, $dbpwd, $dbname);
 
